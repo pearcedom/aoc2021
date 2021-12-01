@@ -11,6 +11,8 @@ all: $(days)
 src/day%/ans.txt: src/day%/solution.py src/day%/input.txt
 	python3 $< > $@
 
+# for .ses see
+# www.reddit.com/r/adventofcode/comments/a2vonl/how_to_download_inputs_with_a_script/
 src/day%/input.txt:
 	curl https://adventofcode.com/2021/day/$$(echo $* | sed s/^0//)/input \
 		--cookie "session=$$(cat .ses)" \
