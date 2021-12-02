@@ -1,4 +1,4 @@
-.PRECIOUS: src/day%/ans.txt src/day%/input.txt
+.PRECIOUS: src/day%/ans.txt src/day%/input.txt src/day%/solution.py
 .PHONY: all %
 days := $(shell seq -f "%02g" $$(date -d "$D" '+%d'))
 
