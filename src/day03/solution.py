@@ -9,13 +9,13 @@ def gamma_rate(x):
 def epsilon_rate(x):
     return "".join(which_bit(i, lt) for i in zip(*x))
 
-def get_rating(y, compare):
+def get_rating(x, compare):
     i = 0
-    while len(y) > 1:
-        p = [j[i] for j in y]
-        y = [j for j in y if j[i] == which_bit(p, compare)]
+    while len(x) > 1:
+        p = [j[i] for j in x]
+        x = [j for j in x if j[i] == which_bit(p, compare)]
         i += 1
-    return y[0]
+    return x[0]
 
 def o2_rating(x):
     return get_rating(x, ge)
