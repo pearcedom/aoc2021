@@ -3,7 +3,7 @@ from itertools import cycle
 
 Point = namedtuple("Point", "x y")
 
-def to_line(p1, p2):
+def fill2line(p1, p2):
     xs = range(p1.x, p2.x+1) if p1.x < p2.x else range(p1.x, p2.x-1, -1)
     ys = range(p1.y, p2.y+1) if p1.y < p2.y else range(p1.y, p2.y-1, -1)
     xs, ys = (cycle(xs), ys) if len(xs) == 1 else (xs, cycle(ys))
@@ -21,5 +21,5 @@ if __name__ == "__main__":
         lines = [i.split(' -> ') for i in f.read().splitlines()]
         x = [[Point(*map(int, j.split(','))) for j in i] for i in lines]
 
-    print("Part1:", find_overlaps([to_line(*i) for i in x if is_straight(*i)]))
-    print("Part2:", find_overlaps([to_line(*i) for i in x]))
+    print("Part1:", find_overlaps([fill2line(*i) for i in x if is_straight(*i)]))
+    print("Part2:", find_overlaps([fill2line(*i) for i in x]))
