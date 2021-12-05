@@ -3,14 +3,16 @@ from itertools import cycle
 
 Point = namedtuple("Point", "x y")
 
-def fill2line(p1, p2):
-    xs = range(p1.x, p2.x+1) if p1.x < p2.x else range(p1.x, p2.x-1, -1)
-    ys = range(p1.y, p2.y+1) if p1.y < p2.y else range(p1.y, p2.y-1, -1)
-    xs, ys = (cycle(xs), ys) if len(xs) == 1 else (xs, cycle(ys))
-    return [Point(x, y) for x, y in zip(xs, ys)]
-
 def is_straight(p1, p2):
     return p1.x == p2.x or p1.y == p2.y
+
+def fill2line(p1, p2):
+    xs, ys = zip_range(p1.x, p2.x), zip_range(p1.y, p2.y)
+    return [Point(x, y) for x, y in zip(xs, ys)]
+
+def zip_range(x, y):
+    r = range(x, y+1) if x < y else range(x, y-1, -1)
+    return cycle(r) if len(r) == 1 else r
 
 def find_overlaps(lines):
     point_counts = Counter([j for i in lines for j in i])
