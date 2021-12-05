@@ -1,8 +1,11 @@
 .PRECIOUS: src/day%/ans.txt src/day%/input.txt src/day%/solution.py
-.PHONY: all %
+.PHONY: all % tree
 days := $(shell seq -f "%02g" $$(date -d "$D" '+%d'))
 
-all: $(days)
+all: tree $(days)
+
+tree: tree.txt
+	@cat $<
 
 %: src/day%/ans.txt
 	@echo "Day $* --------------------------------------------------"
