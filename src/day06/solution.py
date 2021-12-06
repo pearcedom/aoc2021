@@ -8,7 +8,7 @@ def n_after(x, n):
         if x > 0:
             return n_after(x-1, n-1)
         else:
-            return sum(n_after(i, n-1) for i in [6, 8])
+            return n_after(6, n-1) + n_after(8, n-1)
 
 if __name__ == "__main__":
     with open("src/day06/input.txt") as f:
