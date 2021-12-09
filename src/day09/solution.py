@@ -19,8 +19,8 @@ def pool(i, j, d, v = None):
 
 if __name__ == "__main__":
     with open('src/day09/example.txt') as f:
-        ls = f.read().splitlines()
-        h, w = len(ls), len(ls[0])
+        lines = f.read().splitlines()
+        h, w = len(lines), len(lines[0])
         d = {(i, j): 19 for i in range(h+2) for j in range(w+2)}
         for i, j in enumerate(lines):
             for k, l in enumerate(j):
