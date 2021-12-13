@@ -13,7 +13,7 @@ def flash(d):
         for i in to_inc:
             m[i] += 1
         flashing = zip(*np.where((m > 9) & ~flashed))
-        to_inc = [j for i in flashing for j in adjacent(*i)]
+        to_inc = [j for i in flashing for j in adj(*i)]
         flashed |= (m > 9)
 
     n_flashes = sum(sum(m > 9))
