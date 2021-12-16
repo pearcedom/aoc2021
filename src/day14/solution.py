@@ -5,10 +5,10 @@ from operator import add
 def insert(x, rules, n):
     @lru_cache(maxsize=None)
     def f(x, n):
+        (first, last), mid = x, rules[x]
         if n <= 0:
-            return Counter(x[1])
+            return Counter(last)
         else:
-            (first, last), mid = x, rules[x]
             return f(first+mid, n-1) + f(mid+last, n-1)
     return Counter(x[0]) + f(x, n)
 
