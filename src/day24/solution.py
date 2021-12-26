@@ -1,61 +1,40 @@
 import re
 from functools import cache
 
-def mul(x, y):
-    return x * y
-
-def add(x, y):
-    return x + y
-
-def mod(x, y):
-    return x % y
-
-def div(x, y):
-    return x // y
-
-def eql(x, y):
-    return int(x == y)
+def step(z, w, zdiv, xadd, yadd):
+    # Thanks reddit
+    if (z%26 + xadd) != w:
+        return z//zdiv*26 + w + yadd
+    else:
+        return z//zdiv
 
 @cache
-def step(z, w, block):
-    x = y = 0
-    for i in block:
-        if i.startswith('w'):
-            w = eval(i[4:])
-        elif i.startswith('x'):
-            x = eval(i[4:])
-        elif i.startswith('y'):
-            y = eval(i[4:])
-        elif i.startswith('z'):
-            z = eval(i[4:])
-    return z
-
-@cache
-def r(z, blocks):
-    if not blocks:
+def f(z, zdivs, xadds, yadds):
+    if not zdivs:
         return [(z == 0, "")]
-    res = []
+    results = []
     for w in range(1, 10):
-        zw = step(z, w, blocks[0])
+        zw = step(z, w, zdivs[0], xadds[0], yadds[0])
         if zw < 10000000:
-            res += [(i, str(w) + j) for i, j in r(zw, blocks[1:]) if i]
-    return res
+            res = [(i, str(w) + j) for i, j in f(zw, zdivs[1:], xadds[1:], yadds[1:]) if i]
+            results += res
+    return results
 
-with open('src/day24/input.txt') as f:
-    cmds = [re.sub("(\w) (.+)", "\\1(\\2)", i) for i in f.read().splitlines()]
-    cmds = [re.sub(" ", ", ", i) for i in cmds]
-    cmds = [re.sub("(.+)\\((\w)(.*)\\)", "\\2 = \\1(\\2\\3)", i) for i in cmds]
-    cmds = [re.sub("(.*)(inp)\\((.*)\\)", "\\1\\2()", i) for i in cmds]
+if __name__ == '__main__':
+    with open('src/day24/input.txt') as file:
+        cmds = [re.sub("(\w) (.+)", "\\1(\\2)", i) for i in file.read().splitlines()]
+        cmds = [re.sub(" ", ", ", i) for i in cmds]
+        cmds = [re.sub("(.+)\\((\w)(.*)\\)", "\\2 = \\1(\\2\\3)", i) for i in cmds]
+        cmds = [re.sub("(.*)(inp)\\((.*)\\)", "\\1\\2()", i) for i in cmds]
 
-blocks = tuple(tuple(cmds[i+1:i+18]) for i, j in enumerate(cmds) if 'inp' in j)
+    inp_index = [i for i, j in enumerate(cmds) if 'inp' in j]
+    zdivs = tuple(int(re.findall('\d+', cmds[i + 4])[0]) for i in inp_index)
+    xadds = tuple(int(re.findall('-{0,1}\d+', cmds[i + 5])[0]) for i in inp_index)
+    yadds = tuple(int(re.findall('\d+', cmds[i + 15])[0]) for i in inp_index)
 
-out = r(0, blocks)
+    ans = f(0, zdivs, xadds, yadds)
 
-z = 0
-ans = "94992994195998"
+    print("Part1:", ans[-1][1])
+    print("Part2:", ans[0][1])
 
-w, ans = ans[0], ans[1:]
-w = int(w)
-block, blocks = blocks[0], blocks[1:]
-z = step(z, w, block)
-ans, z
+
